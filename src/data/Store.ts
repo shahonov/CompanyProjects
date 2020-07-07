@@ -3,10 +3,10 @@ import { CompanyAddress } from "../models/CompanyAddress";
 import { Employee } from "../models/Employee";
 import { Project } from "../models/Project";
 
-const companies = require('./data/companies.json');
-const companyAddresses = require('./data/company-addresses.json');
-const employees = require('./data/employees.json');
-const projects = require('./data/projects.json');
+const companies = require('./companies.json');
+const companyAddresses = require('./company-addresses.json');
+const employees = require('./employees.json');
+const projects = require('./projects.json');
 
 export class Store {
 

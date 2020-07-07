@@ -7,7 +7,7 @@ export class App extends React.PureComponent {
       <div>
         <header>
           Lol
-      </header>
+        </header>
       </div>
     );
   }
