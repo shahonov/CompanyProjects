@@ -1,26 +1,15 @@
 import * as React from 'react';
 import { observer } from 'mobx-react';
-import styled from 'styled-components';
 import { observable, action } from 'mobx';
+import { CardContent, Typography, CardActions, Button } from '@material-ui/core';
 import store from '../../data/Store';
 import { Company } from '../../models/Company';
 import { Project } from '../../models/Project';
 import { Employee } from '../../models/Employee';
 import { ProjectsTable } from '../tables/ProjectsTable';
 import { EmployeesTable } from '../tables/EmployeesTable';
+import { StyledCard } from './styled-components/StyledCard';
 import { CompanyAddress } from '../../models/CompanyAddress';
-import { Card, CardContent, Typography, CardActions, Button } from '@material-ui/core';
-
-const StyledCard = styled(Card)`
-    width: 400px;
-    display: inline-block;
-    margin: 5px;
-    transition: .3s;
-    &:hover {
-        box-shadow: 2px 2px 10px black;
-        transition: .3s;
-    }
-`;
 
 export interface Props {
     company: Company;

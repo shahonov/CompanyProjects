@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { Typography } from '@material-ui/core';
 import { Employee } from '../../models/Employee';
 import { TableData } from './styled-components/TableData';
 import { TableHeader } from './styled-components/TableHeader';
@@ -16,6 +17,8 @@ export class EmployeesTable extends React.Component<Props> {
 
     public render(): React.ReactNode {
         return (
+            this.props.employees.length > 0 
+            ?
             <table className="table table-hover">
                 <thead>
                     <tr>
@@ -36,6 +39,13 @@ export class EmployeesTable extends React.Component<Props> {
                     }
                 </tbody>
             </table>
+            :
+            <Typography
+                    gutterBottom
+                    color="textSecondary"
+                    style={{ margin: '10px 0 10px 10px' }} >
+                    No employees found.
+                </Typography>
         );
     }
 
