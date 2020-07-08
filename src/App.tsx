@@ -1,14 +1,14 @@
 import * as React from 'react';
-import { observer } from 'mobx-react';
+import { TopMenu } from './components/TopMenu';
+import { MenuContainer } from './styled-components/Containers';
 
-@observer
 export class App extends React.PureComponent {
 
   public render(): React.ReactNode {
     return (
-      <div>
-        AppTsx
-      </div>
+      <MenuContainer>
+        <TopMenu />
+      </MenuContainer>
     );
   }
 }
