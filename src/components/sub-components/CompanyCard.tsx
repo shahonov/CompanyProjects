@@ -1,9 +1,15 @@
 import * as React from 'react';
-import { observable, action } from 'mobx';
 import { observer } from 'mobx-react';
 import styled from 'styled-components';
-import { Card, CardContent, Typography, CardActions, Button } from '@material-ui/core';
+import { observable, action } from 'mobx';
+import store from '../../data/Store';
 import { Company } from '../../models/Company';
+import { Project } from '../../models/Project';
+import { Employee } from '../../models/Employee';
+import { ProjectsTable } from '../tables/ProjectsTable';
+import { EmployeesTable } from '../tables/EmployeesTable';
+import { CompanyAddress } from '../../models/CompanyAddress';
+import { Card, CardContent, Typography, CardActions, Button } from '@material-ui/core';
 
 const StyledCard = styled(Card)`
     width: 400px;
@@ -23,9 +29,13 @@ export interface Props {
 @observer
 export class CompanyCard extends React.Component<Props> {
 
-    @observable private showInfo: boolean = false;
+    @observable private showAddress: boolean = false;
     @observable private showEmployees: boolean = false;
     @observable private showProjects: boolean = false;
+
+    private address: CompanyAddress | undefined = store.companyAddresses.find(x => x.companyId === this.props.company.id);
+    private employees: Employee[] | undefined = store.employees.filter(x => x.companyId === this.props.company.id);
+    private projects: Project[] | undefined = store.projects.filter(x => x.companyId === this.props.company.id);
 
     public render(): React.ReactNode {
         const { name, business, slogan } = this.props.company;
@@ -41,7 +51,7 @@ export class CompanyCard extends React.Component<Props> {
                         <Button
                             variant="outlined"
                             size="small"
-                            onClick={this.toggleInfo}>Info</Button>
+                            onClick={this.toggleAddress}>Address</Button>
                         <Button
                             variant="outlined"
                             size="small"
@@ -51,56 +61,58 @@ export class CompanyCard extends React.Component<Props> {
                             size="small"
                             onClick={this.toggleProjects}>Projects</Button>
                     </CardActions>
-                    {
-                        this.showInfo
-                        &&
-                        <CardContent>
-                            <Typography color="textSecondary" gutterBottom>Info</Typography>
-                            <Typography variant="h5" component="h2">About</Typography>
-                            <Typography variant="body2" component="p">CompanyInfo</Typography>
-                        </CardContent>
-                    }
-                    {
-                        this.showEmployees
-                        &&
-                        <CardContent>
-                            <Typography color="textSecondary" gutterBottom>Employees</Typography>
-                            <Typography variant="h5" component="h2">People</Typography>
-                            <Typography variant="body2" component="p">Working in company</Typography>
-                        </CardContent>
-                    }
-                    {
-                        this.showProjects
-                        &&
-                        <CardContent>
-                            <Typography color="textSecondary" gutterBottom>Projects</Typography>
-                            <Typography variant="h5" component="h2">Lele</Typography>
-                            <Typography variant="body2" component="p">Big Project</Typography>
-                        </CardContent>
-                    }
+                    {this.showAddress && this.getAddress()}
+                    {this.showEmployees && this.getEmployees()}
+                    {this.showProjects && this.getProjects()}
                 </StyledCard>
             </>
         );
     }
 
     @action.bound
-    private toggleInfo(): void {
-        this.showInfo = !this.showInfo;
+    private toggleAddress(): void {
+        this.showAddress = !this.showAddress;
         this.showEmployees = false;
         this.showProjects = false;
+    }
+
+    private getAddress(): React.ReactNode {
+        return (
+            this.address
+            &&
+            <CardContent>
+                <Typography color="textSecondary" gutterBottom>
+                    {this.address.city}, {this.address.country}
+                </Typography>
+                <Typography variant="h5" component="h2">
+                    {this.address.state}
+                </Typography>
+                <Typography variant="body2" component="p">
+                    {this.address.street}
+                </Typography>
+            </CardContent>
+        );
     }
 
     @action.bound
     private toggleEmployees(): void {
         this.showEmployees = !this.showEmployees;
-        this.showInfo = false;
+        this.showAddress = false;
         this.showProjects = false;
+    }
+
+    private getEmployees(): React.ReactNode {
+        return this.employees && <EmployeesTable employees={this.employees} />;
     }
 
     @action.bound
     private toggleProjects(): void {
         this.showProjects = !this.showProjects;
-        this.showInfo = false;
+        this.showAddress = false;
         this.showEmployees = false;
+    }
+
+    private getProjects(): React.ReactNode {
+        return this.projects && <ProjectsTable projects={this.projects} />
     }
 }

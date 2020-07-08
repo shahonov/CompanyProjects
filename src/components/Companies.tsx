@@ -8,8 +8,8 @@ export class Companies extends React.PureComponent {
         return (
             <ContentWrapper>
                 {
-                    store.companies.map(x => {
-                        return <CompanyCard company={x} />
+                    store.companies.map((x, i) => {
+                        return <CompanyCard key={i} company={x} />
                     })
                 }
             </ContentWrapper>
