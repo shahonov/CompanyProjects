@@ -2,6 +2,7 @@ import * as React from 'react';
 import { observer } from 'mobx-react';
 import { observable, action } from 'mobx';
 import { TextField, Button } from '@material-ui/core';
+import { AddEmployeeModal } from './modals/AddEmployeeModal';
 
 export interface Props {
     filter: (firstName: string, lastName: string, job: string) => void;
@@ -13,6 +14,7 @@ export class EmployeesFilters extends React.Component<Props> {
     @observable private firstName: string = '';
     @observable private lastName: string = '';
     @observable private job: string = '';
+    @observable private openAddEmployee: boolean = false;
 
     public render(): React.ReactNode {
         return (
@@ -46,6 +48,13 @@ export class EmployeesFilters extends React.Component<Props> {
                     size='large'
                     variant="outlined"
                     onClick={this.cleanFilters}>Clean Filters</Button>
+                <Button
+                    size='large'
+                    variant="outlined"
+                    onClick={() => this.openAddEmployee = true}>Add New</Button>
+                <AddEmployeeModal
+                    isOpen={this.openAddEmployee}
+                    onClose={() => this.openAddEmployee = false} />
             </form>
         );
     }

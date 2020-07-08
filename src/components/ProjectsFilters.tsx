@@ -1,7 +1,8 @@
 import * as React from 'react';
-import { TextField, Button } from '@material-ui/core';
 import { observer } from 'mobx-react';
 import { observable, action } from 'mobx';
+import { TextField, Button } from '@material-ui/core';
+import { AddProjectModal } from './modals/AddProjectModal';
 
 export interface Props {
     filter: (name: string, department: string) => void;
@@ -12,6 +13,7 @@ export class ProjectsFilters extends React.Component<Props> {
 
     @observable private name: string = '';
     @observable private department: string = '';
+    @observable private openAddProject: boolean = false;
 
     public render(): React.ReactNode {
         return (
@@ -38,6 +40,13 @@ export class ProjectsFilters extends React.Component<Props> {
                     size='large'
                     variant="outlined"
                     onClick={this.cleanFilters}>Clean Filters</Button>
+                <Button
+                    size='large'
+                    variant="outlined"
+                    onClick={() => this.openAddProject = true}>Add New</Button>
+                <AddProjectModal
+                    isOpen={this.openAddProject}
+                    onClose={() => this.openAddProject = false} />
             </form>
         );
     }

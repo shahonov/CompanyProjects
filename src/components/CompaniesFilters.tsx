@@ -2,6 +2,7 @@ import * as React from 'react';
 import { observer } from 'mobx-react';
 import { observable, action } from 'mobx';
 import { TextField, Button } from '@material-ui/core';
+import { AddCompanyModal } from './modals/AddCompanyModal';
 
 export interface Props {
     filter: (name: string, business: string) => void;
@@ -12,6 +13,7 @@ export class CompaniesFilters extends React.Component<Props> {
 
     @observable private name: string = '';
     @observable private business: string = '';
+    @observable private openAddCompany: boolean = false;
 
     public render(): React.ReactNode {
         return (
@@ -38,6 +40,13 @@ export class CompaniesFilters extends React.Component<Props> {
                     size='large'
                     variant="outlined"
                     onClick={this.cleanFilters}>Clean Filters</Button>
+                <Button
+                    size='large'
+                    variant="outlined"
+                    onClick={() => this.openAddCompany = true}>Add New</Button>
+                <AddCompanyModal
+                    isOpen={this.openAddCompany}
+                    onClose={() => this.openAddCompany = false} />
             </form>
         );
     }

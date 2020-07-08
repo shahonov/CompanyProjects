@@ -12,7 +12,10 @@ const projects = require('./projects.json');
 
 class Store {
 
+    @observable private id: number;
+
     constructor() {
+        this.id = 0;
         this.companies = companies as Company[];
         this.companyAddresses = companyAddresses as CompanyAddress[];
         this.employees = employees as Employee[];
@@ -76,6 +79,12 @@ class Store {
         }
 
         return Response.ok();
+    }
+
+    @action.bound
+    public nextId(): number {
+        this.id = this.id + 1;
+        return this.id;
     }
 }
 
