@@ -65,14 +65,6 @@ export class Home extends React.PureComponent {
                             <li>Employees</li>
                         </ul>
                     </li>
-                    <br />
-                    <li>Can be edited:
-                        <ul>
-                            <li>Companies</li>
-                            <li>Projects</li>
-                            <li>Employees</li>
-                        </ul>
-                    </li>
                 </ul>
                 <hr />
                 <h4>Filater options:</h4>
