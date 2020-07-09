@@ -26,7 +26,6 @@ export class EmployeeCard extends React.Component<Props> {
         const {
             firstName,
             lastName,
-            dateOfBirth,
             jobArea,
             jobTitle,
             jobType
@@ -35,7 +34,7 @@ export class EmployeeCard extends React.Component<Props> {
             <>
                 <StyledCard variant="outlined">
                     <CardContent>
-                        <Typography color="textSecondary" gutterBottom>{dateOfBirth}</Typography>
+                        <Typography color="textSecondary" gutterBottom>{this.formatDate}</Typography>
                         <Typography variant="h5" component="h2">{`${firstName} ${lastName}`}</Typography>
                         <Typography variant="body2" component="p">{`${jobArea}, ${jobType}`}</Typography>
                         <Typography variant="body2" component="h4">{jobTitle}</Typography>
@@ -55,6 +54,18 @@ export class EmployeeCard extends React.Component<Props> {
                 </StyledCard>
             </>
         );
+    }
+
+    private get formatDate(): string {
+        const birthDate = this.props.employee.dateOfBirth;
+        if (birthDate === '') {
+            return '';
+        }
+
+        const date = new Date(birthDate);
+        const month = date.toLocaleString('default', { month: 'long' });
+        const formatted = `${date.getDate()} ${month} ${date.getFullYear()}`;
+        return formatted;
     }
 
     private getCompany(): React.ReactNode {

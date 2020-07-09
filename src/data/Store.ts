@@ -58,6 +58,7 @@ class Store {
             return Response.fail(`company address with id "${companyAddress.id}" already exists`);
         }
 
+        this.companyAddresses.push(companyAddress);
         return Response.ok();
     }
 
@@ -68,6 +69,7 @@ class Store {
             return Response.fail(`employee with id "${employee.id} already exists`);
         }
 
+        this.employees.push(employee);
         return Response.ok();
     }
 
@@ -78,6 +80,7 @@ class Store {
             return Response.fail(`project with id "${project.id}" already exists`);
         }
 
+        this.projects.push(project);
         return Response.ok();
     }
 
