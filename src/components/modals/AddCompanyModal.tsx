@@ -136,6 +136,10 @@ export class AddCompanyModal extends React.Component<Props> {
 
     @action.bound
     private addNewCompany(): void {
+        if (!this.isValidInputs()) {
+            return;
+        }
+
         const id = store.nextId().toString();
         const company = {
             name: this.name,
@@ -160,5 +164,32 @@ export class AddCompanyModal extends React.Component<Props> {
             store.companyAddresses.push(companyAddress);
             this.props.onClose();
         }
+    }
+
+    private isValidInputs(): boolean {
+        if (this.name === '') {
+            alert('You must enter name.');
+            return false;
+        } else if (this.business === '') {
+            alert('You must enter business.');
+            return false;
+        } else if (this.slogan === '') {
+            alert('You must enter slogan.');
+            return false;
+        } else if (this.country === '') {
+            alert('You must enter country.');
+            return false;
+        } else if (this.state === '') {
+            alert('You must enter state.');
+            return false;
+        } else if (this.city === '') {
+            alert('You must enter city.');
+            return false;
+        } else if (this.street === '') {
+            alert('You must enter street.');
+            return false;
+        }
+
+        return true;
     }
 }
