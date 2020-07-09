@@ -1,34 +1,13 @@
 import * as React from 'react';
-import styled from 'styled-components';
-import { TextField, Modal, Button } from '@material-ui/core';
 import { observer } from 'mobx-react';
 import { observable, action } from 'mobx';
+import { Modal, Button } from '@material-ui/core';
 import store from '../../data/Store';
 import { Company } from '../../models/Company';
 import { CompanyAddress } from '../../models/CompanyAddress';
-
-const StyledModal = styled.div`
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 400px;
-    background-color: #EEE;
-    border: 1px solid white;
-    box-shadow: 1px 1px 5px black;
-    padding: 10px;
-`;
-
-const InputWrapper = styled.div`
-    display: flex;
-    justify-content: center;
-    width: 100%;
-    margin: 5px 0;
-`;
-
-const Input = styled(TextField)`
-    width: 100%;
-`;
+import { ModalInput } from './styled-components/ModalInputs';
+import { StyledModal } from './styled-components/StyledModal';
+import { ModalInputWrapper } from './styled-components/ModalInputWrapper';
 
 export interface Props {
     isOpen: boolean;
@@ -38,13 +17,13 @@ export interface Props {
 @observer
 export class AddCompanyModal extends React.Component<Props> {
 
-    @observable private addCompanyName: string = '';
-    @observable private addCompanyBusiness: string = '';
-    @observable private addCompanySlogan: string = '';
-    @observable private addCompanyCountry: string = '';
-    @observable private addCompanyCity: string = '';
-    @observable private addCompanyState: string = '';
-    @observable private addCompanyStreet: string = '';
+    @observable private name: string = '';
+    @observable private business: string = '';
+    @observable private slogan: string = '';
+    @observable private country: string = '';
+    @observable private city: string = '';
+    @observable private companyState: string = '';
+    @observable private street: string = '';
 
     public render(): React.ReactNode {
         return (
@@ -53,68 +32,68 @@ export class AddCompanyModal extends React.Component<Props> {
                 onClose={this.props.onClose}>
                 <StyledModal>
                     <h2 style={{ textAlign: 'center' }}>Add New Company</h2>
-                    <InputWrapper>
-                        <Input
+                    <ModalInputWrapper>
+                        <ModalInput
                             size='small'
                             label="Name"
                             variant="outlined"
-                            value={this.addCompanyName}
+                            value={this.name}
                             onChange={this.handleChangeName} />
-                    </InputWrapper>
-                    <InputWrapper>
-                        <Input
+                    </ModalInputWrapper>
+                    <ModalInputWrapper>
+                        <ModalInput
                             size='small'
                             label="Business"
                             variant="outlined"
-                            value={this.addCompanyBusiness}
+                            value={this.business}
                             onChange={this.handleChangeBusiness} />
-                    </InputWrapper>
-                    <InputWrapper>
-                        <Input
+                    </ModalInputWrapper>
+                    <ModalInputWrapper>
+                        <ModalInput
                             size='small'
                             label="Slogan"
                             variant="outlined"
-                            value={this.addCompanySlogan}
+                            value={this.slogan}
                             onChange={this.handleChangeSlogan} />
-                    </InputWrapper>
-                    <InputWrapper>
-                        <Input
+                    </ModalInputWrapper>
+                    <ModalInputWrapper>
+                        <ModalInput
                             size='small'
                             label="Country"
                             variant="outlined"
-                            value={this.addCompanyCountry}
+                            value={this.country}
                             onChange={this.handleChangeCountry} />
-                    </InputWrapper>
-                    <InputWrapper>
-                        <Input
+                    </ModalInputWrapper>
+                    <ModalInputWrapper>
+                        <ModalInput
                             size='small'
                             label="State"
                             variant="outlined"
-                            value={this.addCompanyState}
+                            value={this.companyState}
                             onChange={this.handleChangeState} />
-                    </InputWrapper>
-                    <InputWrapper>
-                        <Input
+                    </ModalInputWrapper>
+                    <ModalInputWrapper>
+                        <ModalInput
                             size='small'
                             label="City"
                             variant="outlined"
-                            value={this.addCompanyCity}
+                            value={this.city}
                             onChange={this.handleChangeCity} />
-                    </InputWrapper>
-                    <InputWrapper>
-                        <Input
+                    </ModalInputWrapper>
+                    <ModalInputWrapper>
+                        <ModalInput
                             size='small'
                             label="Street"
                             variant="outlined"
-                            value={this.addCompanyStreet}
+                            value={this.street}
                             onChange={this.handleChangeStreet} />
-                    </InputWrapper>
-                    <InputWrapper>
+                    </ModalInputWrapper>
+                    <ModalInputWrapper>
                         <Button
                             size='large'
                             variant="outlined"
                             onClick={this.addNewCompany}>Add</Button>
-                    </InputWrapper>
+                    </ModalInputWrapper>
                 </StyledModal>
             </Modal>
         );
@@ -122,54 +101,54 @@ export class AddCompanyModal extends React.Component<Props> {
 
     @action.bound
     private handleChangeName(ev: React.ChangeEvent<HTMLInputElement>): void {
-        this.addCompanyName = ev.currentTarget.value;
+        this.name = ev.currentTarget.value;
     }
 
     @action.bound
     private handleChangeBusiness(ev: React.ChangeEvent<HTMLInputElement>): void {
-        this.addCompanyBusiness = ev.currentTarget.value;
+        this.business = ev.currentTarget.value;
     }
 
     @action.bound
     private handleChangeSlogan(ev: React.ChangeEvent<HTMLInputElement>): void {
-        this.addCompanySlogan = ev.currentTarget.value;
+        this.slogan = ev.currentTarget.value;
     }
 
     @action.bound
     private handleChangeCountry(ev: React.ChangeEvent<HTMLInputElement>): void {
-        this.addCompanyCountry = ev.currentTarget.value;
+        this.country = ev.currentTarget.value;
     }
 
     @action.bound
     private handleChangeState(ev: React.ChangeEvent<HTMLInputElement>): void {
-        this.addCompanyState = ev.currentTarget.value;
+        this.companyState = ev.currentTarget.value;
     }
 
     @action.bound
     private handleChangeCity(ev: React.ChangeEvent<HTMLInputElement>): void {
-        this.addCompanyCity = ev.currentTarget.value;
+        this.city = ev.currentTarget.value;
     }
 
     @action.bound
     private handleChangeStreet(ev: React.ChangeEvent<HTMLInputElement>): void {
-        this.addCompanyStreet = ev.currentTarget.value;
+        this.street = ev.currentTarget.value;
     }
 
     @action.bound
     private addNewCompany(): void {
         const id = store.nextId().toString();
         const company = {
-            name: this.addCompanyName,
-            business: this.addCompanyBusiness,
-            slogan: this.addCompanySlogan,
+            name: this.name,
+            business: this.business,
+            slogan: this.slogan,
             id: id
         } as Company;
 
         const companyAddress = {
-            country: this.addCompanyCountry,
-            state: this.addCompanyState,
-            city: this.addCompanyCity,
-            street: this.addCompanyStreet,
+            country: this.country,
+            state: this.companyState,
+            city: this.city,
+            street: this.street,
             id: store.nextId().toString(),
             companyId: id
         } as CompanyAddress;
