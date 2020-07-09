@@ -2,16 +2,13 @@ import * as React from 'react';
 import { observer } from 'mobx-react';
 import styled from 'styled-components';
 import { observable, action } from 'mobx';
-import { Modal, Button, FormControl, InputLabel, Select, MenuItem } from '@material-ui/core';
+import { Modal, Button, InputLabel, Select, MenuItem } from '@material-ui/core';
 import store from '../../data/Store';
 import { Employee } from '../../models/Employee';
+import { SelectForm } from './styled-components/SelectForm';
 import { ModalInput } from './styled-components/ModalInputs';
 import { StyledModal } from './styled-components/StyledModal';
 import { ModalInputWrapper } from './styled-components/ModalInputWrapper';
-
-const SelectForm = styled(FormControl)`
-    width: 100%;
-`;
 
 const ModalDateInputWrapper = styled.span`
     margin: 0 2px;
@@ -241,7 +238,7 @@ export class AddEmployeeModal extends React.Component<Props> {
 
     @action.bound
     private addNewEmployee(): void {
-        if (!this.validateInputs()) {
+        if (!this.isValidInputs()) {
             return;
         }
 
@@ -275,7 +272,7 @@ export class AddEmployeeModal extends React.Component<Props> {
         }
     }
 
-    private validateInputs(): boolean {
+    private isValidInputs(): boolean {
         if (this.firstName === '') {
             alert('You must enter first name.');
             return false;
