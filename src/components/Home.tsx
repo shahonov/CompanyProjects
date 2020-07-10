@@ -5,71 +5,57 @@ export class Home extends React.PureComponent {
     public render(): React.ReactNode {
         return (
             <ContentWrapper>
-                <h1>Company Projects</h1>
-                <h3>Application Notes:</h3>
-                <ul>
-                    <hr />
-                    <li>
-                        <p>has initial companies, projects and employees</p>
-                    </li>
-                    <hr />
-                    <li>
-                        <p>each company have:</p>
-                        <ul>
-                            <li>address</li>
-                            <li>name</li>
-                            <li>business </li>
-                            <li>slogan</li>
-                            <li>(can have) many projects</li>
-                            <li>(can have) many employees</li>
-                        </ul>
-                    </li>
-                    <hr />
-                    <li>
-                        <p>each project have:</p>
-                        <ul>
-                            <li>name </li>
-                            <li>department</li>
-                            <li>(can have) many employees </li>
-                        </ul>
-                    </li>
-                    <hr />
-                    <li>
-                        <p>each employee have:</p>
-                        <ul>
-                            <li>first name</li>
-                            <li>last name</li>
-                            <li>company, he&#39;s working on</li>
-                            <li>date of birth</li>
-                            <li>job title</li>
-                            <li>job type</li>
-                            <li>job area</li>
-                        </ul>
-                    </li>
-                </ul>
+                <h2>Company Project</h2>
                 <hr />
-                <h4>Manage options:</h4>
+                <h4>Application models:</h4>
                 <ul>
-                    <li>Can be added:
+                    <li>
+                        <p>Company</p>
                         <ul>
-                            <li>Companies</li>
-                            <li>Projects</li>
-                            <li>Employees</li>
+                            <li>ID</li>
+                            <li>Name</li>
+                            <li>Business</li>
+                            <li>Slogan</li>
                         </ul>
                     </li>
                     <br />
-                    <li>Can be deleted:
+                    <li>
+                        <p>Project</p>
                         <ul>
-                            <li>Companies</li>
-                            <li>Projects</li>
-                            <li>Employees</li>
+                            <li>Name</li>
+                            <li>Department</li>
+                            <li>CompanyID</li>
+                            <li>EmployeesIDs</li>
+                        </ul>
+                    </li>
+                    <br />
+                    <li>
+                        <p>Employee</p>
+                        <ul>
+                            <li>ID</li>
+                            <li>CompanyID</li>
+                            <li>FirstName</li>
+                            <li>LastName</li>
+                            <li>DateOfBirth</li>
+                            <li>JobArea</li>
+                            <li>JobType</li>
+                            <li>JobTitle</li>
                         </ul>
                     </li>
                 </ul>
                 <hr />
-                <h4>Filater options:</h4>
+                <h4>Application provides following functionalities for each model:</h4>
                 <ul>
-                    <li>Each cards (company, project, employee) can be filtered to be received extracted results</li>
+                    <li>Filter</li>
+                    <li>Read</li>
+                    <li>Update</li>
+                    <li>Create</li>
+                    <li>Delete</li>
+                </ul>
+                <hr />
+                <h4>Restrictions:</h4>
+                <ul>
+                    <li>No model can be updated with empty value.</li>
                 </ul>
             </ContentWrapper>
         );
