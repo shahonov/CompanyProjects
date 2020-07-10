@@ -1,6 +1,6 @@
 import React from "react";
 import { observer } from "mobx-react";
-import { observable, action } from "mobx";
+import { observable, action, computed } from "mobx";
 import { CardContent, Typography, CardActions, Button } from "@material-ui/core";
 import store from "../../data/Store";
 import { Project } from "../../models/Project";
@@ -8,6 +8,7 @@ import { Company } from "../../models/Company";
 import { Employee } from "../../models/Employee";
 import { ProjectsTable } from "../tables/ProjectsTable";
 import { StyledCard } from "./styled-components/StyledCard";
+import { EditEmployeeModal } from "../modals/EditEmployeeModal";
 
 export interface Props {
     employee: Employee;
@@ -18,9 +19,7 @@ export class EmployeeCard extends React.Component<Props> {
 
     @observable private showCompany: boolean = false;
     @observable private showProjects: boolean = false;
-
-    private company: Company | undefined = store.companies.find(x => x.id === this.props.employee.companyId);
-    private projects: Project[] | undefined = store.projects.filter(x => x.employeesId.includes(this.props.employee.id));
+    @observable private showEditModal: boolean = false;
 
     public render(): React.ReactNode {
         const {
@@ -34,6 +33,8 @@ export class EmployeeCard extends React.Component<Props> {
             <>
                 <StyledCard variant="outlined">
                     <CardContent>
+                        <span onClick={() => this.showEditModal = true}>[EDIT]</span>
+                        <span onClick={this.deleteEmployee}>[X]</span>
                         <Typography color="textSecondary" gutterBottom>{this.formatDate}</Typography>
                         <Typography variant="h5" component="h2">{`${firstName} ${lastName}`}</Typography>
                         <Typography variant="body2" component="p">{`${jobArea}, ${jobType}`}</Typography>
@@ -51,9 +52,28 @@ export class EmployeeCard extends React.Component<Props> {
                     </CardActions>
                     {this.showCompany && this.getCompany()}
                     {this.showProjects && this.getProjects()}
+                    <EditEmployeeModal
+                        isOpen={this.showEditModal}
+                        employee={this.props.employee}
+                        onClose={() => this.showEditModal = false} />
                 </StyledCard>
             </>
         );
+    }
+
+    @computed
+    private get company(): Company | undefined {
+        return store.companies.find(x => x.id === this.props.employee.companyId);
+    }
+
+    @computed
+    private get projects(): Project[] | undefined {
+        return store.projects.filter(x => x.employeesId.includes(this.props.employee.id));
+    }
+
+    @action.bound
+    private deleteEmployee(): void {
+        store.deleteEmployee(this.props.employee.id);
     }
 
     private get formatDate(): string {

@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { observer } from 'mobx-react';
-import { observable, toJS, action } from 'mobx';
+import { observable, toJS, action, computed } from 'mobx';
 import store from '../data/Store';
 import { Project } from '../models/Project';
 import { FiltersLayout } from './FiltersLayout';
@@ -24,6 +24,7 @@ export class Projects extends React.PureComponent {
         );
     }
 
+    @computed
     private get projects(): Project[] {
         let projects = toJS(store.projects);
         if (this.name !== '') {

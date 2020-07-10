@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { observer } from 'mobx-react';
 import styled from 'styled-components';
-import { observable, action } from 'mobx';
+import { observable, action, toJS } from 'mobx';
 import { Modal, Button, InputLabel, Select, MenuItem, FormControl, Input, Chip } from '@material-ui/core';
 import store from '../../data/Store';
 import { Project } from '../../models/Project';
@@ -33,16 +33,17 @@ const MenuProps = {
 
 export interface Props {
     isOpen: boolean;
+    project: Project;
     onClose: () => void;
 }
 
 @observer
-export class AddProjectModal extends React.Component<Props> {
+export class EditProjectModal extends React.Component<Props> {
 
-    @observable private name: string = '';
-    @observable private department: string = '';
-    @observable private companyId: string = '';
-    @observable private employeeIds: string[] = [];
+    @observable private name: string = toJS(this.props.project.name);
+    @observable private department: string = toJS(this.props.project.department);
+    @observable private companyId: string = toJS(this.props.project.companyId);
+    @observable private employeeIds: string[] = toJS(this.props.project.employeesId);
 
     public render(): React.ReactNode {
         return (
@@ -50,7 +51,7 @@ export class AddProjectModal extends React.Component<Props> {
                 open={this.props.isOpen}
                 onClose={this.props.onClose}>
                 <StyledModal>
-                    <h2 style={{ textAlign: 'center' }}>Add New Project</h2>
+                    <h2 style={{ textAlign: 'center' }}>Edit Project</h2>
                     <ModalInputWrapper>
                         <ModalInput
                             size='small'
@@ -113,11 +114,11 @@ export class AddProjectModal extends React.Component<Props> {
                         <Button
                             size='large'
                             variant="outlined"
-                            onClick={this.addNewProject}>Add</Button>
+                            onClick={this.updateProject}>Update</Button>
                     </ModalInputWrapper>
                 </StyledModal>
-            </Modal>
-        )
+            </Modal >
+        );
     }
 
     @action.bound
@@ -145,26 +146,20 @@ export class AddProjectModal extends React.Component<Props> {
     }
 
     @action.bound
-    private addNewProject(): void {
+    private updateProject(): void {
         if (!this.isValidInputs()) {
             return;
         }
 
-        const id = store.nextId().toString();
-        const project = {
-            companyId: this.companyId,
-            id: id,
-            name: this.name,
-            department: this.department,
-            employeesId: []
-        } as Project;
-
-        const response = store.addProject(project);
-        if (!response.isSuccess) {
-            alert(response.message);
-        } else {
-            this.props.onClose();
-        }
+        store.updateProject(
+            this.props.project.id, 
+            this.name, 
+            this.department, 
+            this.companyId,
+            this.employeeIds
+        );
+        
+        this.props.onClose();
     }
 
     private isValidInputs(): boolean {

@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { observer } from 'mobx-react';
-import { observable, action } from 'mobx';
+import { observable, action, computed } from 'mobx';
 import { CardContent, Typography, CardActions, Button } from '@material-ui/core';
 import store from '../../data/Store';
 import { Company } from '../../models/Company';
@@ -10,6 +10,7 @@ import { ProjectsTable } from '../tables/ProjectsTable';
 import { EmployeesTable } from '../tables/EmployeesTable';
 import { StyledCard } from './styled-components/StyledCard';
 import { CompanyAddress } from '../../models/CompanyAddress';
+import { EditCompanyModal } from '../modals/EditCompanyModal';
 
 export interface Props {
     company: Company;
@@ -21,10 +22,7 @@ export class CompanyCard extends React.Component<Props> {
     @observable private showAddress: boolean = false;
     @observable private showEmployees: boolean = false;
     @observable private showProjects: boolean = false;
-
-    private address: CompanyAddress | undefined = store.companyAddresses.find(x => x.companyId === this.props.company.id);
-    private employees: Employee[] | undefined = store.employees.filter(x => x.companyId === this.props.company.id);
-    private projects: Project[] | undefined = store.projects.filter(x => x.companyId === this.props.company.id);
+    @observable private showEditModal: boolean = false;
 
     public render(): React.ReactNode {
         const { name, business, slogan } = this.props.company;
@@ -32,6 +30,8 @@ export class CompanyCard extends React.Component<Props> {
             <>
                 <StyledCard variant="outlined">
                     <CardContent>
+                        <span onClick={() => this.showEditModal = true}>[EDIT]</span>
+                        <span onClick={this.deleteCompany}>[X]</span>
                         <Typography color="textSecondary" gutterBottom>{business}</Typography>
                         <Typography variant="h5" component="h2">{name}</Typography>
                         <Typography variant="body2" component="p">{slogan}</Typography>
@@ -53,6 +53,10 @@ export class CompanyCard extends React.Component<Props> {
                     {this.showAddress && this.getAddress()}
                     {this.showEmployees && this.getEmployees()}
                     {this.showProjects && this.getProjects()}
+                    <EditCompanyModal
+                        isOpen={this.showEditModal}
+                        company={this.props.company}
+                        onClose={() => this.showEditModal = false} />
                 </StyledCard>
             </>
         );
@@ -81,6 +85,26 @@ export class CompanyCard extends React.Component<Props> {
                 </Typography>
             </CardContent>
         );
+    }
+
+    @computed
+    private get address(): CompanyAddress | undefined {
+        return store.companyAddresses.find(x => x.companyId === this.props.company.id);
+    }
+
+    @computed
+    private get employees(): Employee[] | undefined {
+        return store.employees.filter(x => x.companyId === this.props.company.id);
+    }
+
+    @computed
+    private get projects(): Project[] | undefined {
+        return store.projects.filter(x => x.companyId === this.props.company.id);
+    }
+
+    @action.bound
+    private deleteCompany(): void {
+        store.deleteCompany(this.props.company.id);
     }
 
     @action.bound

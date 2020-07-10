@@ -52,6 +52,33 @@ class Store {
     }
 
     @action.bound
+    public deleteCompany(companyId: string): void {
+        const company = this.companies.find(x => x.id === companyId);
+        if (company) {
+            const cIndex = this.companies.indexOf(company);
+            this.companies.splice(cIndex, 1);
+
+            const companyAddress = this.companyAddresses.find(x => x.companyId === companyId);
+            if (companyAddress) {
+                const caIndex = this.companyAddresses.indexOf(companyAddress);
+                this.companyAddresses.splice(caIndex, 1);
+            }
+
+            const employees = this.employees.filter(x => x.companyId === companyId);
+            employees.forEach(x => {
+                const eIndex = this.employees.indexOf(x);
+                this.employees.splice(eIndex, 1);
+            });
+            
+            const projects = this.projects.filter(x => x.companyId === companyId);
+            projects.forEach(x => {
+                const pIndex = this.projects.indexOf(x);
+                this.projects.splice(pIndex, 1);
+            });
+        }
+    }
+
+    @action.bound
     public addCompanyAddress(companyAddress: CompanyAddress): Response<boolean> {
         const idCompanyAddress = this.companyAddresses.find(x => x.id === companyAddress.id);
         if (idCompanyAddress && this.companyAddresses.includes(idCompanyAddress)) {
@@ -74,6 +101,15 @@ class Store {
     }
 
     @action.bound
+    public deleteEmployee(employeeId: string): void {
+        const employee = this.employees.find(x => x.id === employeeId);
+        if (employee) {
+            const index = this.employees.indexOf(employee);
+            this.employees.splice(index, 1);
+        }
+    }
+
+    @action.bound
     public addProject(project: Project): Response<boolean> {
         const idProject = this.projects.find(x => x.id === project.id);
         if (idProject && this.projects.includes(idProject)) {
@@ -82,6 +118,26 @@ class Store {
 
         this.projects.push(project);
         return Response.ok();
+    }
+
+    @action.bound
+    public deleteProject(projectId: string): void {
+        const project = this.projects.find(x => x.id === projectId);
+        if (project) {
+            const index = this.projects.indexOf(project);
+            this.projects.splice(index, 1);
+        }
+    }
+
+    @action.bound
+    public updateProject(projectId: string, name: string, department: string, companyId: string, employeesId: string[]): void {
+        const project = this.projects.find(x => x.id === projectId);
+        if (project) {
+            project.name = name;
+            project.department = department;
+            project.companyId = companyId;
+            project.employeesId = employeesId;
+        }
     }
 
     @action.bound
