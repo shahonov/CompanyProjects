@@ -5,7 +5,7 @@ export class Home extends React.PureComponent {
     public render(): React.ReactNode {
         return (
             <ContentWrapper>
-                <h2>Company Project</h2>
+                <h2>Company Projects</h2>
                 <hr />
                 <h4>Application models:</h4>
                 <ul>
