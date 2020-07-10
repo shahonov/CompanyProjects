@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { observer } from 'mobx-react';
-import styled from 'styled-components';
 import { observable, action } from 'mobx';
 import { Modal, Button, InputLabel, Select, MenuItem } from '@material-ui/core';
 import store from '../../data/Store';
@@ -8,15 +7,9 @@ import { Employee } from '../../models/Employee';
 import { SelectForm } from './styled-components/SelectForm';
 import { ModalInput } from './styled-components/ModalInputs';
 import { StyledModal } from './styled-components/StyledModal';
+import { SelectDateForm } from './styled-components/SelectDateForm';
 import { ModalInputWrapper } from './styled-components/ModalInputWrapper';
-
-const ModalDateInputWrapper = styled.span`
-    margin: 0 2px;
-`;
-
-const SelectDateForm = styled(SelectForm)`
-    width: 32%;
-`;
+import { ModalDateInputWrapper } from './styled-components/ModalDateInputWrapper';
 
 export interface Props {
     isOpen: boolean;
@@ -254,20 +247,12 @@ export class AddEmployeeModal extends React.Component<Props> {
             jobTitle: this.jobTitle,
             id: id
         } as Employee;
-        
+
         const response = store.addEmployee(employee);
         if (!response.isSuccess) {
             alert(response.message);
         } else {
-            this.companyId = '';
-            this.firstName = '';
-            this.lastName = '';
-            this.birthYear = '';
-            this.birthMonth = '';
-            this.birthDate = '';
-            this.jobTitle = '';
-            this.jobArea = '';
-            this.jobType = '';
+            this.clearInputs();
             this.props.onClose();
         }
     }
@@ -303,5 +288,17 @@ export class AddEmployeeModal extends React.Component<Props> {
         }
 
         return true;
+    }
+
+    private clearInputs(): void {
+        this.companyId = '';
+        this.firstName = '';
+        this.lastName = '';
+        this.birthYear = '';
+        this.birthMonth = '';
+        this.birthDate = '';
+        this.jobTitle = '';
+        this.jobArea = '';
+        this.jobType = '';
     }
 }

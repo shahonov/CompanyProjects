@@ -110,6 +110,28 @@ class Store {
     }
 
     @action.bound
+    public updateEmployee(
+        employeeId: string,
+        companyId: string, 
+        firstName: string, 
+        lastName: string, 
+        birthDate: string, 
+        jobArea: string, 
+        jobType: string, 
+        jobTitle: string): void {
+            const employee = this.employees.find(x => x.id === employeeId);
+            if (employee) {
+                employee.companyId = companyId;
+                employee.firstName = firstName;
+                employee.lastName = lastName;
+                employee.dateOfBirth = birthDate;
+                employee.jobArea = jobArea;
+                employee.jobType = jobType;
+                employee.jobTitle = jobTitle;
+            }
+    }
+
+    @action.bound
     public addProject(project: Project): Response<boolean> {
         const idProject = this.projects.find(x => x.id === project.id);
         if (idProject && this.projects.includes(idProject)) {
