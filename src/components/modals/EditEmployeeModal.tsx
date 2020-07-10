@@ -184,7 +184,7 @@ export class EditEmployeeModal extends React.Component<Props> {
                         <Button
                             size='large'
                             variant="outlined"
-                            onClick={this.updateEmployee}>Add</Button>
+                            onClick={this.updateEmployee}>Update</Button>
                     </ModalInputWrapper>
                 </StyledModal>
             </Modal>

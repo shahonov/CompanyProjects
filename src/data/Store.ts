@@ -69,12 +69,26 @@ class Store {
                 const eIndex = this.employees.indexOf(x);
                 this.employees.splice(eIndex, 1);
             });
-            
+
             const projects = this.projects.filter(x => x.companyId === companyId);
             projects.forEach(x => {
                 const pIndex = this.projects.indexOf(x);
                 this.projects.splice(pIndex, 1);
             });
+        }
+    }
+
+    @action.bound
+    public updateCompany(
+        companyId: string,
+        name: string,
+        business: string,
+        slogan: string): void {
+        const company = this.companies.find(x => x.id = companyId);
+        if (company) {
+            company.name = name;
+            company.business = business;
+            company.slogan = slogan;
         }
     }
 
@@ -87,6 +101,22 @@ class Store {
 
         this.companyAddresses.push(companyAddress);
         return Response.ok();
+    }
+
+    @action.bound
+    public updateCompanyAddress(
+        companyAddressId: string,
+        country: string,
+        state: string,
+        city: string,
+        street: string): void {
+        const companyAddress = this.companyAddresses.find(x => x.id === companyAddressId);
+        if (companyAddress) {
+            companyAddress.country = country;
+            companyAddress.state = state;
+            companyAddress.city = city;
+            companyAddress.street = street;
+        }
     }
 
     @action.bound
@@ -112,23 +142,23 @@ class Store {
     @action.bound
     public updateEmployee(
         employeeId: string,
-        companyId: string, 
-        firstName: string, 
-        lastName: string, 
-        birthDate: string, 
-        jobArea: string, 
-        jobType: string, 
+        companyId: string,
+        firstName: string,
+        lastName: string,
+        birthDate: string,
+        jobArea: string,
+        jobType: string,
         jobTitle: string): void {
-            const employee = this.employees.find(x => x.id === employeeId);
-            if (employee) {
-                employee.companyId = companyId;
-                employee.firstName = firstName;
-                employee.lastName = lastName;
-                employee.dateOfBirth = birthDate;
-                employee.jobArea = jobArea;
-                employee.jobType = jobType;
-                employee.jobTitle = jobTitle;
-            }
+        const employee = this.employees.find(x => x.id === employeeId);
+        if (employee) {
+            employee.companyId = companyId;
+            employee.firstName = firstName;
+            employee.lastName = lastName;
+            employee.dateOfBirth = birthDate;
+            employee.jobArea = jobArea;
+            employee.jobType = jobType;
+            employee.jobTitle = jobTitle;
+        }
     }
 
     @action.bound
