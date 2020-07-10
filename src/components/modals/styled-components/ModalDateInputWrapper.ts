@@ -1,5 +1,5 @@
 import styled from 'styled-components';
 
 export const ModalDateInputWrapper = styled.span`
-    margin: 0 2px;
+    margin: 15px 2px;
 `;
