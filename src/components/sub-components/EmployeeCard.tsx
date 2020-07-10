@@ -6,12 +6,15 @@ import store from "../../data/Store";
 import { Project } from "../../models/Project";
 import { Company } from "../../models/Company";
 import { Employee } from "../../models/Employee";
+import { EmployeeImg } from "./styled-components/Img";
+import employee from '../../assets/icons/employee.svg';
 import { ProjectsTable } from "../tables/ProjectsTable";
 import { EditIcon } from "./styled-components/EditIcon";
 import { StyledCard } from "./styled-components/StyledCard";
 import { DeleteIcon } from "./styled-components/DeleteIcon";
 import { EditEmployeeModal } from "../modals/EditEmployeeModal";
 import { TopButtonWrapper } from "./styled-components/TopButtonsWrapper";
+
 
 export interface Props {
     employee: Employee;
@@ -23,6 +26,7 @@ export class EmployeeCard extends React.Component<Props> {
     @observable private showCompany: boolean = false;
     @observable private showProjects: boolean = false;
     @observable private showEditModal: boolean = false;
+    @observable private image: HTMLImageElement | null = null;
 
     public render(): React.ReactNode {
         const {
@@ -33,36 +37,42 @@ export class EmployeeCard extends React.Component<Props> {
             jobType
         } = this.props.employee;
         return (
-            <>
-                <StyledCard variant="outlined">
-                    <CardContent>
-                        <TopButtonWrapper>
-                            <EditIcon onClick={() => this.showEditModal = true} />
-                            <DeleteIcon onClick={this.deleteEmployee} />
-                        </TopButtonWrapper>
-                        <Typography color="textSecondary" gutterBottom>{this.formatDate}</Typography>
-                        <Typography variant="h5" component="h2">{`${firstName} ${lastName}`}</Typography>
-                        <Typography variant="body2" component="p">{`${jobArea}, ${jobType}`}</Typography>
-                        <Typography variant="body2" component="h4">{jobTitle}</Typography>
-                    </CardContent>
-                    <CardActions>
-                        <Button
-                            variant="outlined"
-                            size="small"
-                            onClick={this.toggleCompany}>Company</Button>
-                        <Button
-                            variant="outlined"
-                            size="small"
-                            onClick={this.toggleProjects}>Projects</Button>
-                    </CardActions>
-                    {this.showCompany && this.getCompany()}
-                    {this.showProjects && this.getProjects()}
-                    <EditEmployeeModal
-                        isOpen={this.showEditModal}
-                        employee={this.props.employee}
-                        onClose={() => this.showEditModal = false} />
-                </StyledCard>
-            </>
+            <StyledCard
+                onMouseEnter={() => {
+                    this.image?.classList.add('highlight');
+                }}
+                onMouseLeave={() => {
+                    this.image?.classList.remove('highlight');
+                }}
+                variant="outlined">
+                <EmployeeImg ref={x => this.image = x} src={employee} alt='employee' />
+                <CardContent>
+                    <TopButtonWrapper>
+                        <EditIcon onClick={() => this.showEditModal = true} />
+                        <DeleteIcon onClick={this.deleteEmployee} />
+                    </TopButtonWrapper>
+                    <Typography color="textSecondary" gutterBottom>{this.formatDate}</Typography>
+                    <Typography variant="h5" component="h2">{`${firstName} ${lastName}`}</Typography>
+                    <Typography variant="body2" component="p">{`${jobArea}, ${jobType}`}</Typography>
+                    <Typography variant="body2" component="h4">{jobTitle}</Typography>
+                </CardContent>
+                <CardActions>
+                    <Button
+                        variant="outlined"
+                        size="small"
+                        onClick={this.toggleCompany}>Company</Button>
+                    <Button
+                        variant="outlined"
+                        size="small"
+                        onClick={this.toggleProjects}>Projects</Button>
+                </CardActions>
+                {this.showCompany && this.getCompany()}
+                {this.showProjects && this.getProjects()}
+                <EditEmployeeModal
+                    isOpen={this.showEditModal}
+                    employee={this.props.employee}
+                    onClose={() => this.showEditModal = false} />
+            </StyledCard>
         );
     }
 
