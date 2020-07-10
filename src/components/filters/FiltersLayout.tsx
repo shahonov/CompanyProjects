@@ -2,7 +2,7 @@ import * as React from 'react';
 import { ProjectsFilters } from './ProjectsFilters';
 import { CompaniesFilters } from './CompaniesFilters';
 import { EmployeesFilters } from './EmployeesFilters';
-import { ContentWrapper } from '../styled-components/Containers';
+import { ContentWrapper } from '../../styled-components/Containers';
 
 export type FilterType = 'company' | 'project' | 'employee';
 

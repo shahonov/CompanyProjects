@@ -2,51 +2,60 @@ import * as React from 'react';
 import { observer } from 'mobx-react';
 import { observable, action } from 'mobx';
 import { TextField, Button } from '@material-ui/core';
-import { AddCompanyModal } from './modals/AddCompanyModal';
+import { AddIcon } from './styled-components/AddIcon';
+import { AddProjectModal } from '../modals/AddProjectModal';
+import { ClearFiltersIcon } from './styled-components/ClearFiltersIcon';
+import { FilterIcon } from './styled-components/FilterIcon';
 
 export interface Props {
-    filter: (name: string, business: string) => void;
+    filter: (name: string, department: string) => void;
 }
 
 @observer
-export class CompaniesFilters extends React.Component<Props> {
+export class ProjectsFilters extends React.Component<Props> {
 
     @observable private name: string = '';
-    @observable private business: string = '';
-    @observable private openAddCompany: boolean = false;
+    @observable private department: string = '';
+    @observable private openAddProject: boolean = false;
 
     public render(): React.ReactNode {
         return (
             <form noValidate autoComplete="off">
                 <TextField
                     size='small'
-                    label="Company Name"
+                    label="Project Name"
                     variant="outlined"
                     value={this.name}
                     onChange={this.filterByName} />
                 <TextField
                     style={{ margin: '0 5px' }}
                     size='small'
-                    label="Business"
+                    label="Department"
                     variant="outlined"
-                    value={this.business}
-                    onChange={this.filterByBusiness} />
+                    value={this.department}
+                    onChange={this.filterByDepartment} />
                 <Button
                     size='large'
                     variant="outlined"
-                    onClick={this.filterCards}>Filter</Button>
+                    onClick={this.filterCards}>
+                    <FilterIcon />Filter
+                </Button>
                 <Button
                     style={{ margin: '0 5px' }}
                     size='large'
                     variant="outlined"
-                    onClick={this.cleanFilters}>Clean Filters</Button>
+                    onClick={this.cleanFilters}>
+                    <ClearFiltersIcon />Clear Filters
+                </Button>
                 <Button
                     size='large'
                     variant="outlined"
-                    onClick={() => this.openAddCompany = true}>Add New</Button>
-                <AddCompanyModal
-                    isOpen={this.openAddCompany}
-                    onClose={() => this.openAddCompany = false} />
+                    onClick={() => this.openAddProject = true}>
+                    <AddIcon />Add New
+                </Button>
+                <AddProjectModal
+                    isOpen={this.openAddProject}
+                    onClose={() => this.openAddProject = false} />
             </form>
         );
     }
@@ -57,19 +66,19 @@ export class CompaniesFilters extends React.Component<Props> {
     }
 
     @action.bound
-    private filterByBusiness(ev: React.ChangeEvent<HTMLInputElement>): void {
-        this.business = ev.currentTarget.value;
+    private filterByDepartment(ev: React.ChangeEvent<HTMLInputElement>): void {
+        this.department = ev.currentTarget.value;
     }
 
     @action.bound
     private filterCards(): void {
-        this.props.filter(this.name, this.business);
+        this.props.filter(this.name, this.department);
     }
 
     @action.bound
     private cleanFilters(): void {
         this.name = '';
-        this.business = '';
+        this.department = '';
         this.filterCards();
     }
 }

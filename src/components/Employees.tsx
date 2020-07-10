@@ -1,6 +1,6 @@
 import * as React from 'react';
 import store from '../data/Store';
-import { FiltersLayout } from './FiltersLayout';
+import { FiltersLayout } from './filters/FiltersLayout';
 import { EmployeeCard } from './sub-components/EmployeeCard';
 import { observer } from 'mobx-react';
 import { observable, action, toJS } from 'mobx';

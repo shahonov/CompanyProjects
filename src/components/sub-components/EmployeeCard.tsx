@@ -7,8 +7,11 @@ import { Project } from "../../models/Project";
 import { Company } from "../../models/Company";
 import { Employee } from "../../models/Employee";
 import { ProjectsTable } from "../tables/ProjectsTable";
+import { EditIcon } from "./styled-components/EditIcon";
 import { StyledCard } from "./styled-components/StyledCard";
+import { DeleteIcon } from "./styled-components/DeleteIcon";
 import { EditEmployeeModal } from "../modals/EditEmployeeModal";
+import { TopButtonWrapper } from "./styled-components/TopButtonsWrapper";
 
 export interface Props {
     employee: Employee;
@@ -33,8 +36,10 @@ export class EmployeeCard extends React.Component<Props> {
             <>
                 <StyledCard variant="outlined">
                     <CardContent>
-                        <span onClick={() => this.showEditModal = true}>[EDIT]</span>
-                        <span onClick={this.deleteEmployee}>[X]</span>
+                        <TopButtonWrapper>
+                            <EditIcon onClick={() => this.showEditModal = true} />
+                            <DeleteIcon onClick={this.deleteEmployee} />
+                        </TopButtonWrapper>
                         <Typography color="textSecondary" gutterBottom>{this.formatDate}</Typography>
                         <Typography variant="h5" component="h2">{`${firstName} ${lastName}`}</Typography>
                         <Typography variant="body2" component="p">{`${jobArea}, ${jobType}`}</Typography>

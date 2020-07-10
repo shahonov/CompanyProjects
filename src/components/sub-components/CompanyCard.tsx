@@ -7,10 +7,13 @@ import { Company } from '../../models/Company';
 import { Project } from '../../models/Project';
 import { Employee } from '../../models/Employee';
 import { ProjectsTable } from '../tables/ProjectsTable';
+import { EditIcon } from './styled-components/EditIcon';
 import { EmployeesTable } from '../tables/EmployeesTable';
 import { StyledCard } from './styled-components/StyledCard';
+import { DeleteIcon } from './styled-components/DeleteIcon';
 import { CompanyAddress } from '../../models/CompanyAddress';
 import { EditCompanyModal } from '../modals/EditCompanyModal';
+import { TopButtonWrapper } from './styled-components/TopButtonsWrapper';
 
 export interface Props {
     company: Company;
@@ -30,8 +33,10 @@ export class CompanyCard extends React.Component<Props> {
             <>
                 <StyledCard variant="outlined">
                     <CardContent>
-                        <span onClick={() => this.showEditModal = true}>[EDIT]</span>
-                        <span onClick={this.deleteCompany}>[X]</span>
+                        <TopButtonWrapper>
+                            <EditIcon onClick={() => this.showEditModal = true} />
+                            <DeleteIcon onClick={this.deleteCompany} />
+                        </TopButtonWrapper>
                         <Typography color="textSecondary" gutterBottom>{business}</Typography>
                         <Typography variant="h5" component="h2">{name}</Typography>
                         <Typography variant="body2" component="p">{slogan}</Typography>

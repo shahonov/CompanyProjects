@@ -2,7 +2,10 @@ import * as React from 'react';
 import { observer } from 'mobx-react';
 import { observable, action } from 'mobx';
 import { TextField, Button } from '@material-ui/core';
-import { AddEmployeeModal } from './modals/AddEmployeeModal';
+import { AddIcon } from './styled-components/AddIcon';
+import { FilterIcon } from './styled-components/FilterIcon';
+import { AddEmployeeModal } from '../modals/AddEmployeeModal';
+import { ClearFiltersIcon } from './styled-components/ClearFiltersIcon';
 
 export interface Props {
     filter: (firstName: string, lastName: string, job: string) => void;
@@ -42,16 +45,22 @@ export class EmployeesFilters extends React.Component<Props> {
                 <Button
                     size='large'
                     variant="outlined"
-                    onClick={this.filterCards}>Filter</Button>
+                    onClick={this.filterCards}>
+                    <FilterIcon />Filter
+                </Button>
                 <Button
                     style={{ margin: '0 5px' }}
                     size='large'
                     variant="outlined"
-                    onClick={this.cleanFilters}>Clean Filters</Button>
+                    onClick={this.cleanFilters}>
+                    <ClearFiltersIcon />Clear Filters
+                </Button>
                 <Button
                     size='large'
                     variant="outlined"
-                    onClick={() => this.openAddEmployee = true}>Add New</Button>
+                    onClick={() => this.openAddEmployee = true}>
+                    <AddIcon />Add New
+                </Button>
                 <AddEmployeeModal
                     isOpen={this.openAddEmployee}
                     onClose={() => this.openAddEmployee = false} />

@@ -3,7 +3,7 @@ import { observer } from 'mobx-react';
 import { observable, action, toJS } from 'mobx';
 import store from '../data/Store';
 import { Company } from '../models/Company';
-import { FiltersLayout } from './FiltersLayout';
+import { FiltersLayout } from './filters/FiltersLayout';
 import { CompanyCard } from './sub-components/CompanyCard';
 
 @observer
