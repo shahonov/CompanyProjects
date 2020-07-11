@@ -1,9 +1,10 @@
 import styled from 'styled-components';
 
 const Img = styled.img`
-    width: 100px;
+    width: 70px;
     opacity: 0.3;
     position: absolute;
+    margin-left: 310px;
     transition: .3s;
     &.highlight {
         transition: .3s;
@@ -14,16 +15,13 @@ const Img = styled.img`
 `;
 
 export const EmployeeImg = styled(Img)`
-    margin-top: 100px;
-    margin-left: 250px;
+    margin-top: 130px;
 `;
 
 export const CompanyImg = styled(Img)`
-    margin-top: 50px;
-    margin-left: 280px;
+    margin-top: 110px;
 `;
 
 export const ProjectImg = styled(Img)`
-    margin-top: 50px;
-    margin-left: 270px;
+    margin-top: 90px;
 `;
