@@ -3,6 +3,7 @@ const fs = require('fs');
 function getData(dataFile, response) {
     fs.readFile(dataFile, (err, data) => {
         if (err) {
+            console.log(err);
             return internalServerError(response, err);
         } else {
             return success(response, data);

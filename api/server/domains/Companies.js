@@ -1,7 +1,7 @@
 const func = require('./Shared');
 const express = require('express');
 const companyRoutes = express.Router();
-const dataFile = './server/data/companies.json';
+const dataFile = './api/server/data/companies.json';
 
 // HTTP:GET ENDPOINT
 companyRoutes.get('', (request, response) => {
