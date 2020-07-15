@@ -1,0 +1,20 @@
+{
+  "name": "api",
+  "version": "1.0.0",
+  "description": "companyprojects-api",
+  "main": "index",
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "none"
+  },
+  "keywords": [
+    "api"
+  ],
+  "author": "shahonov",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.17.1"
+  }
+}

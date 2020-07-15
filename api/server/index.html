@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+
+<body>
+	<select id="domain-dropdown" onchange="changeDomain()">
+		<option value="">Select Domain...</option>
+		<option value="companies">Companies</option>
+		<option value="company-addresses">CompanyAddresses</option>
+		<option value="employees">Employees</option>
+		<option value="projects">Projects</option>
+	</select>
+	<button onclick="getData()">Get</button>
+	<button onclick="putData()">Put</button>
+	<button onclick="deleteData()">Delete</button>
+	<script>
+		let domain = '';
+		function url() {
+			return `http://localhost:9000/${domain}`;
+		}
+
+		function changeDomain() {
+			const dropdown = document.getElementById('domain-dropdown');
+			domain = dropdown.value;
+			console.log(url());
+		}
+
+		function getData() {
+			fetch(url())
+				.then(x => x.json())
+				.then(x => console.log(x))
+				.catch(x => console.warn(x));
+		}
+
+		function putData() {
+			const data = getMock();
+			fetch(url(), {
+				method: 'PUT',
+				headers: {
+					'Content-Type': 'application/json'
+				},
+				body: JSON.stringify(data)
+			})
+				.then(x => x.json())
+				.then(x => console.log(x))
+				.catch(x => console.warn(x));
+		}
+
+		function deleteData() {
+			const data = getMock();
+			fetch(url(), {
+				method: 'DELETE',
+				headers: {
+					'Content-Type': 'application/json'
+				},
+				body: JSON.stringify(data)
+			})
+				.then(x => x.json())
+				.then(x => console.log(x))
+				.catch(x => console.warn(x));
+		}
+
+		function getMock() {
+			switch (domain) {
+				case 'companies': return {
+					"id": '1',
+					"name": 'Shahonov Corp.',
+					"business": 'Big Biznis',
+					"slogan": 'maina'
+				};
+				case 'company-addresses': return {
+					id: '1',
+					country: 'Bulgaria',
+					state: 'Sofia',
+					city: 'Sofia',
+					street: 'center',
+					companyId: '1'
+				};
+				case 'employees': return {
+					id: '1',
+					firstName: 'Jack',
+					lastName: 'John',
+					companyId: '1',
+					jobArea: 'job',
+					jobTitle: 'djob',
+					jobType: 'djop'
+				};
+				case 'projects': return {
+					id: '1',
+					companyId: '1',
+					name: 'proekt',
+					department: 'otdel',
+					employeesId: ['1', '2']
+				};
+				default: return data;
+			}
+		}
+	</script>
+</body>
+
+</html>
