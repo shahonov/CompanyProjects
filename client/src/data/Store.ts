@@ -4,10 +4,6 @@ import { Project } from "../models/Project";
 import { Response } from '../models/Response';
 import { Employee } from "../models/Employee";
 import { CompanyAddress } from "../models/CompanyAddress";
-import { CompaniesStream } from './CompaniesStream';
-import { CompanyAddressesStream } from './CompanyAddressesStream';
-import { ProjectsStream } from './ProjectsStream';
-import { EmployeesStream } from './EmployeesStream';
 
 const companies = require('./companies.json');
 const companyAddresses = require('./company-addresses.json');
@@ -24,12 +20,6 @@ class Store {
         this.companyAddresses = companyAddresses as CompanyAddress[];
         this.employees = employees as Employee[];
         this.projects = projects as Project[];
-
-        const i = 50000;
-        const a = new CompaniesStream(i);
-        const b = new CompanyAddressesStream(i);
-        const c = new EmployeesStream(i);
-        const d = new ProjectsStream(i);
     }
 
     @observable public companies: Company[];
