@@ -13,6 +13,12 @@ companyAddressRoutes.put('', (request, response) => {
     return func.putData(dataFile, request, response);
 });
 
+// HTTP:PATCH ENDPOINT
+companyAddressRoutes.patch('', (request, response) => {
+	const companyAddress = request.body;
+    return func.patchData(dataFile, response, x => x.id === companyAddress.id);
+});
+
 // HTTP:DELETE ENDPOINT
 companyAddressRoutes.delete('', (request, response) => {
     const companyAddress = request.body;

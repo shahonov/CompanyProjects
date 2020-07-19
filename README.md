@@ -5,8 +5,8 @@
     <li>Node.js installed on your machine is mandatory</li>
     <li>Clone the repository</li>
     <li>Open command line terminal and run 'npm run setup' command</li>
-    <li>Run 'npm run go:api' command</li>
+    <li>Run 'npm run api' command</li>
     <li>Open new terminal</li>
-    <li>Run 'npm run go:client' command</li>
+    <li>Run 'npm run client' command</li>
     <li>Enjoy</li>
 </ul>

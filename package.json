@@ -4,8 +4,8 @@
   "description": "company projects app",
   "main": "client -> npm start, api -> node server/server.js",
   "scripts": {
-    "go:api": "node ./api/server/server.js",
-    "go:client": "cd ./client && npm start",
+    "api": "node ./api/server/server.js",
+    "client": "cd ./client && npm start",
     "setup": "cd ./api && npm install && cd ../ && cd ./client && npm install"
   },
   "repository": {

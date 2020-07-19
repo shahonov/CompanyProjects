@@ -2,7 +2,7 @@ import { observable, runInAction } from "mobx";
 
 export abstract class DataStream<T> {
 
-    private url: string;
+    protected url: string;
 
     private domain: string;
 
@@ -14,6 +14,7 @@ export abstract class DataStream<T> {
         this.domain = domain;
         this.intervalTime = intervalTime;
         this.data = this.default();
+        this.fetch();
         setInterval(this.fetch, this.intervalTime);
     }
 
@@ -25,7 +26,6 @@ export abstract class DataStream<T> {
         fetch(this.url)
             .then(x => x.json())
             .then(x => {
-                console.log(this.domain, x);
                 runInAction(() => {
                     this.data = x;
                 })
@@ -33,4 +33,33 @@ export abstract class DataStream<T> {
             .catch(x => console.warn(`DataStream<T> ${this.domain}: ${x}`));
     }
 
+    public put<T>(data: T): void {
+        fetch(this.url, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        })
+            .then(x => x.json())
+            .then(x => this.fetch())
+            .catch(x => console.warn(x));
+    }
+
+    public patch<T>(data: T): void {
+        
+    }
+
+    public delete<T>(data: T): void {
+        fetch(this.url, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        })
+            .then(x => x.json())
+            .then(x => this.fetch())
+            .catch(x => console.warn(x));
+    }
 }

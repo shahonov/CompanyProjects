@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { observer } from 'mobx-react';
-import { observable, toJS, action } from 'mobx';
+import { observable, toJS, action, runInAction } from 'mobx';
 import { Modal, Button } from '@material-ui/core';
 import store from '../../data/Store';
 import { Company } from '../../models/Company';
@@ -18,13 +18,28 @@ export interface Props {
 @observer
 export class EditCompanyModal extends React.Component<Props> {
 
+    constructor(props: Props) {
+        super(props);
+
+        // this is necessary because company addresses 
+        // are not loaded initially and will always return undefined
+        setTimeout(() => {
+            runInAction(() => {
+                this.country = this.companyAddress()?.country ?? '';
+                this.companyState = this.companyAddress()?.state ?? '';
+                this.city = this.companyAddress()?.city ?? '';
+                this.street = this.companyAddress()?.street ?? '';
+            });
+        }, 500);
+    }
+
     @observable private name: string = toJS(this.props.company.name);
     @observable private business: string = toJS(this.props.company.business);
     @observable private slogan: string = toJS(this.props.company.slogan);
-    @observable private country: string = toJS(this.companyAddress?.country ?? '');
-    @observable private city: string = toJS(this.companyAddress?.city ?? '');
-    @observable private companyState: string = toJS(this.companyAddress?.state ?? '');
-    @observable private street: string = toJS(this.companyAddress?.street ?? '');
+    @observable private country: string = '';
+    @observable private city: string = '';
+    @observable private companyState: string = '';
+    @observable private street: string = '';
 
     public render(): React.ReactNode {
         return (
@@ -100,7 +115,7 @@ export class EditCompanyModal extends React.Component<Props> {
         );
     }
 
-    private get companyAddress(): CompanyAddress | undefined {
+    private companyAddress(): CompanyAddress | undefined {
         const companyAddress = store.companyAddresses.find(x => x.companyId === this.props.company.id);
         return companyAddress;
     }
@@ -153,7 +168,7 @@ export class EditCompanyModal extends React.Component<Props> {
             this.slogan
         );
         store.updateCompanyAddress(
-            this.companyAddress?.id ?? '',
+            this.companyAddress()?.id ?? '',
             this.country,
             this.companyState,
             this.city,

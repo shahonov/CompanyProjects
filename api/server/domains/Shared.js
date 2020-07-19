@@ -3,7 +3,6 @@ const fs = require('fs');
 function getData(dataFile, response) {
     fs.readFile(dataFile, (err, data) => {
         if (err) {
-            console.log(err);
             return internalServerError(response, err);
         } else {
             return success(response, data);
@@ -29,6 +28,23 @@ function putData(dataFile, request, response) {
             });
         }
     });
+}
+
+function patchData(dataFile, response, predicate) {
+	fs.readFile(dataFile, (err, data) => {
+		if (err) {
+			return internalServerError(response, err);
+		} else {
+			const dataArray = JSON.parse(data);
+            const foundData = dataArray.find(predicate);
+            if (!foundData) {
+                return internalServerError(response, 'not found to be updated');
+            }
+            const index = dataArray.indexOf(foundData);
+            dataArray.splice(index, 1);
+			// implement patch item in array, delete the whole file and write it again
+		}
+	});
 }
 
 function deleteData(dataFile, response, predicate) {

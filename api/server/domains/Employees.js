@@ -13,6 +13,12 @@ employeeRoutes.put('', (request, response) => {
     return func.putData(dataFile, request, response);
 });
 
+// HTTP:PATCH ENDPOINT
+employeeRoutes.patch('', (request, response) => {
+	const employee = request.body;
+    return func.patchData(dataFile, response, x => x.id === employee.id);
+});
+
 // HTTP:DELETE ENDPOINT
 employeeRoutes.delete('', (request, response) => {
     const employee = request.body;

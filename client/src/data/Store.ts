@@ -3,32 +3,45 @@ import { Company } from "../models/Company";
 import { Project } from "../models/Project";
 import { Response } from '../models/Response';
 import { Employee } from "../models/Employee";
+import { ProjectsStream } from './ProjectsStream';
+import { CompaniesStream } from './CompaniesStream';
+import { EmployeesStream } from './EmployeesStream';
 import { CompanyAddress } from "../models/CompanyAddress";
-
-const companies = require('./companies.json');
-const companyAddresses = require('./company-addresses.json');
-const employees = require('./employees.json');
-const projects = require('./projects.json');
+import { CompanyAddressesStream } from './CompanyAddressesStream';
 
 class Store {
+
+    private readonly companiesStream: CompaniesStream;
+    private readonly companyAddressesStream: CompanyAddressesStream;
+    private readonly employeesStream: EmployeesStream;
+    private readonly projectsStream: ProjectsStream;
 
     @observable private id: number;
 
     constructor() {
         this.id = 0;
-        this.companies = companies as Company[];
-        this.companyAddresses = companyAddresses as CompanyAddress[];
-        this.employees = employees as Employee[];
-        this.projects = projects as Project[];
+        const refetchinterval = 10 * 1000; // 10 seconds
+        this.companiesStream = new CompaniesStream(refetchinterval);
+        this.companyAddressesStream = new CompanyAddressesStream(refetchinterval);
+        this.employeesStream = new EmployeesStream(refetchinterval);
+        this.projectsStream = new ProjectsStream(refetchinterval);
     }
 
-    @observable public companies: Company[];
+    public get companies(): Company[] {
+        return this.companiesStream.data;
+    }
 
-    @observable public companyAddresses: CompanyAddress[];
+    public get companyAddresses(): CompanyAddress[] {
+        return this.companyAddressesStream.data;
+    }
 
-    @observable public employees: Employee[];
+    public get employees(): Employee[] {
+        return this.employeesStream.data;
+    }
 
-    @observable public projects: Project[];
+    public get projects(): Project[] {
+        return this.projectsStream.data;
+    }
 
     @action.bound
     public addCompany(company: Company): Response<boolean> {
@@ -47,7 +60,7 @@ class Store {
             return Response.fail(`company with slogan "${company.slogan}" already exists`);
         }
 
-        this.companies.push(company);
+        this.companiesStream.put(company);
         return Response.ok();
     }
 
@@ -55,26 +68,12 @@ class Store {
     public deleteCompany(companyId: string): void {
         const company = this.companies.find(x => x.id === companyId);
         if (company) {
-            const cIndex = this.companies.indexOf(company);
-            this.companies.splice(cIndex, 1);
+            this.companiesStream.delete(company);
+        }
 
-            const companyAddress = this.companyAddresses.find(x => x.companyId === companyId);
-            if (companyAddress) {
-                const caIndex = this.companyAddresses.indexOf(companyAddress);
-                this.companyAddresses.splice(caIndex, 1);
-            }
-
-            const employees = this.employees.filter(x => x.companyId === companyId);
-            employees.forEach(x => {
-                const eIndex = this.employees.indexOf(x);
-                this.employees.splice(eIndex, 1);
-            });
-
-            const projects = this.projects.filter(x => x.companyId === companyId);
-            projects.forEach(x => {
-                const pIndex = this.projects.indexOf(x);
-                this.projects.splice(pIndex, 1);
-            });
+        const companyAddress = this.companyAddresses.find(x => x.companyId === companyId);
+        if (companyAddress) {
+            this.companyAddressesStream.delete(companyAddress);
         }
     }
 
@@ -89,6 +88,10 @@ class Store {
             company.name = name;
             company.business = business;
             company.slogan = slogan;
+            this.companiesStream.delete(company);
+            setTimeout(() => {
+                this.companiesStream.put(company);
+            }, 200);
         }
     }
 
@@ -99,7 +102,7 @@ class Store {
             return Response.fail(`company address with id "${companyAddress.id}" already exists`);
         }
 
-        this.companyAddresses.push(companyAddress);
+        this.companyAddressesStream.put(companyAddress);
         return Response.ok();
     }
 
@@ -116,6 +119,10 @@ class Store {
             companyAddress.state = state;
             companyAddress.city = city;
             companyAddress.street = street;
+            this.companyAddressesStream.delete(companyAddress);
+            setTimeout(() => {
+                this.companyAddressesStream.put(companyAddress);
+            }, 200);
         }
     }
 
@@ -126,7 +133,7 @@ class Store {
             return Response.fail(`employee with id "${employee.id} already exists`);
         }
 
-        this.employees.push(employee);
+        this.employeesStream.put(employee);
         return Response.ok();
     }
 
@@ -134,8 +141,7 @@ class Store {
     public deleteEmployee(employeeId: string): void {
         const employee = this.employees.find(x => x.id === employeeId);
         if (employee) {
-            const index = this.employees.indexOf(employee);
-            this.employees.splice(index, 1);
+            this.employeesStream.delete(employee);
         }
     }
 
@@ -158,6 +164,10 @@ class Store {
             employee.jobArea = jobArea;
             employee.jobType = jobType;
             employee.jobTitle = jobTitle;
+            this.employeesStream.delete(employee);
+            setTimeout(() => {
+                this.employeesStream.put(employee);
+            }, 200);
         }
     }
 
@@ -168,7 +178,7 @@ class Store {
             return Response.fail(`project with id "${project.id}" already exists`);
         }
 
-        this.projects.push(project);
+        this.projectsStream.put(project);
         return Response.ok();
     }
 
@@ -176,8 +186,7 @@ class Store {
     public deleteProject(projectId: string): void {
         const project = this.projects.find(x => x.id === projectId);
         if (project) {
-            const index = this.projects.indexOf(project);
-            this.projects.splice(index, 1);
+            this.projectsStream.delete(project);
         }
     }
 
@@ -189,6 +198,10 @@ class Store {
             project.department = department;
             project.companyId = companyId;
             project.employeesId = employeesId;
+            this.projectsStream.delete(project);
+            setTimeout(() => {
+                this.projectsStream.put(project);
+            }, 200);
         }
     }
 

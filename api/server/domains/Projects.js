@@ -13,6 +13,12 @@ projectRoutes.put('', (request, response) => {
     return func.putData(dataFile, request, response);
 });
 
+//HTTP:PATCH ENDPOINT
+projectRoutes.patch('', (request, response) => {
+	const project = request.body;
+    return func.patchData(dataFile, response, x => x.id === project.id);
+});
+
 // HTTP:DELETE ENDPOINT
 projectRoutes.delete('', (request, response) => {
     const project = request.body;

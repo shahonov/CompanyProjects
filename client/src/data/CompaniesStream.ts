@@ -11,5 +11,4 @@ export class CompaniesStream extends DataStream<Company[]> {
     public default(): Company[] {
         return observable([]);
     }
-
 }
