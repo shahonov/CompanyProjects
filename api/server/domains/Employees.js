@@ -16,7 +16,7 @@ employeeRoutes.put('', (request, response) => {
 // HTTP:PATCH ENDPOINT
 employeeRoutes.patch('', (request, response) => {
 	const employee = request.body;
-    return func.patchData(dataFile, response, x => x.id === employee.id);
+    return func.patchData(dataFile, employee, response, x => x.id === employee.id);
 });
 
 // HTTP:DELETE ENDPOINT

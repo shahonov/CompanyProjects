@@ -16,7 +16,7 @@ projectRoutes.put('', (request, response) => {
 //HTTP:PATCH ENDPOINT
 projectRoutes.patch('', (request, response) => {
 	const project = request.body;
-    return func.patchData(dataFile, response, x => x.id === project.id);
+    return func.patchData(dataFile, project, response, x => x.id === project.id);
 });
 
 // HTTP:DELETE ENDPOINT

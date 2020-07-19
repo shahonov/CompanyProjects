@@ -16,7 +16,7 @@ companyRoutes.put('', (request, response) => {
 // HTTP:PATCH ENDPOINT
 companyRoutes.patch('', (request, response) => {
 	const company = request.body;
-	return func.patchData(dataFile, response, x => x.id === company.id);
+	return func.patchData(dataFile, company, response, x => x.id === company.id);
 });
 
 // HTTP:DELETE ENDPOINT

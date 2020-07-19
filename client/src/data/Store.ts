@@ -88,10 +88,7 @@ class Store {
             company.name = name;
             company.business = business;
             company.slogan = slogan;
-            this.companiesStream.delete(company);
-            setTimeout(() => {
-                this.companiesStream.put(company);
-            }, 200);
+            this.companiesStream.patch(company);
         }
     }
 
@@ -119,10 +116,7 @@ class Store {
             companyAddress.state = state;
             companyAddress.city = city;
             companyAddress.street = street;
-            this.companyAddressesStream.delete(companyAddress);
-            setTimeout(() => {
-                this.companyAddressesStream.put(companyAddress);
-            }, 200);
+            this.companyAddressesStream.patch(companyAddress);
         }
     }
 
@@ -164,10 +158,7 @@ class Store {
             employee.jobArea = jobArea;
             employee.jobType = jobType;
             employee.jobTitle = jobTitle;
-            this.employeesStream.delete(employee);
-            setTimeout(() => {
-                this.employeesStream.put(employee);
-            }, 200);
+            this.employeesStream.patch(employee);
         }
     }
 
@@ -198,10 +189,7 @@ class Store {
             project.department = department;
             project.companyId = companyId;
             project.employeesId = employeesId;
-            this.projectsStream.delete(project);
-            setTimeout(() => {
-                this.projectsStream.put(project);
-            }, 200);
+            this.projectsStream.patch(project);
         }
     }
 

@@ -30,7 +30,6 @@ export class AddEmployeeModal extends React.Component<Props> {
     @observable private jobTitle: string = '';
 
     public render(): React.ReactNode {
-        console.log(this.companyId);
         return (
             <Modal
                 open={this.props.isOpen}
@@ -63,7 +62,7 @@ export class AddEmployeeModal extends React.Component<Props> {
                                 {
                                     (() => {
                                         const date = new Date(Date.now());
-                                        const startYear = date.getFullYear() - 55;
+                                        const startYear = date.getFullYear() - 75;
                                         const endYear = date.getFullYear() - 5;
                                         const allYears: number[] = [];
                                         for (let i = endYear; i >= startYear; i--) {
@@ -236,7 +235,8 @@ export class AddEmployeeModal extends React.Component<Props> {
         }
 
         const id = store.nextId().toString();
-        const date = new Date(+this.birthYear, +this.birthMonth, +this.birthDate);
+        const bd = this.birthDate || '1';
+        const date = new Date(+this.birthYear, +this.birthMonth, +bd);
         const employee = {
             companyId: this.companyId,
             firstName: this.firstName,

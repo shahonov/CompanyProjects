@@ -47,7 +47,16 @@ export abstract class DataStream<T> {
     }
 
     public patch<T>(data: T): void {
-        
+        fetch(this.url, {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        })
+        .then(x => x.json())
+        .then(x => this.fetch())
+        .catch(x => console.warn(x));
     }
 
     public delete<T>(data: T): void {

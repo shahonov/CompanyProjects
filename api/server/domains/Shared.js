@@ -30,7 +30,7 @@ function putData(dataFile, request, response) {
     });
 }
 
-function patchData(dataFile, response, predicate) {
+function patchData(dataFile, item, response, predicate) {
 	fs.readFile(dataFile, (err, data) => {
 		if (err) {
 			return internalServerError(response, err);
@@ -40,9 +40,23 @@ function patchData(dataFile, response, predicate) {
             if (!foundData) {
                 return internalServerError(response, 'not found to be updated');
             }
+
             const index = dataArray.indexOf(foundData);
-            dataArray.splice(index, 1);
-			// implement patch item in array, delete the whole file and write it again
+            dataArray.splice(index, 1, item);
+            
+            fs.unlink(dataFile, (err) => {
+                if (err) {
+                    return internalServerError(response, 'could not be deleted');
+                } else {
+                    fs.writeFile(dataFile, JSON.stringify(dataArray), (err) => {
+                        if (err) {
+                            return internalServerError(response, 'could not be deleted');
+                        } else {
+                            return success(response);
+                        }
+                    });
+                }
+            });
 		}
 	});
 }
@@ -95,4 +109,5 @@ function success(response, data) {
 
 module.exports.getData = getData;
 module.exports.putData = putData;
+module.exports.patchData = patchData;
 module.exports.deleteData = deleteData;

@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { observer } from 'mobx-react';
-import { observable, toJS, action, computed } from 'mobx';
+import { observable, toJS, action } from 'mobx';
 import { Modal, InputLabel, Select, MenuItem, Button } from '@material-ui/core';
 import store from '../../data/Store';
 import { Employee } from '../../models/Employee';
@@ -31,7 +31,7 @@ export class EditEmployeeModal extends React.Component<Props> {
     @observable private birthMonth: string = toJS(
         (() => {
             const date = new Date(this.props.employee.dateOfBirth);
-            return date.toLocaleString('default', { month: 'long' });
+            return date.getMonth().toString();
         })()
     );
     @observable private birthDate: string = toJS(
@@ -97,7 +97,7 @@ export class EditEmployeeModal extends React.Component<Props> {
                             <InputLabel>Birth Month</InputLabel>
                             <Select
                                 label="BirthMonth"
-                                value={this.monthNumber}
+                                value={this.birthMonth}
                                 onChange={this.handleChangeBirthMonth}>
                                 {
                                     (() => {
@@ -191,25 +191,6 @@ export class EditEmployeeModal extends React.Component<Props> {
         );
     }
 
-    @computed
-    private get monthNumber(): number {
-        switch (this.birthMonth) {
-            case 'January': return 0;
-            case 'February': return 1;
-            case 'March': return 2;
-            case 'April': return 3;
-            case 'May': return 4;
-            case 'June': return 5;
-            case 'July': return 6;
-            case 'August': return 7;
-            case 'September': return 8;
-            case 'October': return 9;
-            case 'November': return 10;
-            case 'December': return 11;
-            default: return 0;
-        }
-    }
-
     @action.bound
     private handleChangeFirstName(ev: React.ChangeEvent<HTMLInputElement>): void {
         this.firstName = ev.currentTarget.value;
@@ -269,13 +250,14 @@ export class EditEmployeeModal extends React.Component<Props> {
             return;
         }
 
-        const date = new Date(+this.birthYear, +this.birthMonth, +this.birthDate);
+        const birthDate = this.birthDate || '1';
+        const date = new Date(+this.birthYear, +this.birthMonth, +birthDate);
         store.updateEmployee(
             this.props.employee.id,
             this.companyId,
             this.firstName,
             this.lastName,
-            this.birthDate = date.toString(),
+            date.toString(),
             this.jobArea,
             this.jobType,
             this.jobTitle
