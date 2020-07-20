@@ -140,12 +140,12 @@ export class AddCompanyModal extends React.Component<Props> {
             return;
         }
 
-        const id = store.nextId().toString();
+        const companyId = store.nextId().toString();
         const company = {
             name: this.name,
             business: this.business,
             slogan: this.slogan,
-            id: id
+            id: companyId
         } as Company;
 
         const companyAddress = {
@@ -154,14 +154,14 @@ export class AddCompanyModal extends React.Component<Props> {
             city: this.city,
             street: this.street,
             id: store.nextId().toString(),
-            companyId: id
+            companyId: companyId
         } as CompanyAddress;
 
         const response = store.addCompany(company);
         if (!response.isSuccess) {
             alert(response.message);
         } else {
-            store.companyAddresses.push(companyAddress);
+            store.addCompanyAddress(companyAddress);
             this.props.onClose();
         }
     }

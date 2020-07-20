@@ -54,9 +54,9 @@ export abstract class DataStream<T> {
             },
             body: JSON.stringify(data)
         })
-        .then(x => x.json())
-        .then(x => this.fetch())
-        .catch(x => console.warn(x));
+            .then(x => x.json())
+            .then(x => this.fetch())
+            .catch(x => console.warn(x));
     }
 
     public delete<T>(data: T): void {

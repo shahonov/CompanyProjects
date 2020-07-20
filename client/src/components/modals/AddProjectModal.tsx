@@ -156,7 +156,7 @@ export class AddProjectModal extends React.Component<Props> {
             id: id,
             name: this.name,
             department: this.department,
-            employeesId: []
+            employeesId: this.employeeIds
         } as Project;
 
         const response = store.addProject(project);

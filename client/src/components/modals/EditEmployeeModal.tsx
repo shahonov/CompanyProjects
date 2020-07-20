@@ -78,7 +78,7 @@ export class EditEmployeeModal extends React.Component<Props> {
                                 {
                                     (() => {
                                         const date = new Date(Date.now());
-                                        const startYear = date.getFullYear() - 55;
+                                        const startYear = date.getFullYear() - 95;
                                         const endYear = date.getFullYear() - 5;
                                         const allYears: number[] = [];
                                         for (let i = endYear; i >= startYear; i--) {
